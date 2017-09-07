@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    /*
+    $ {workspaceRoot} - 在VS代码中打开文件夹的路径
+    $ {workspaceRootFolderName} - VS代码中没有任何斜线打开的文件夹的名称（/）
+    $ {file} - 当前打开的文件
+    $ {relativeFile} - 相对于workspaceRoot的当前打开的文件
+    $ {fileBasename} - 当前打开的文件的基本名称
+    $ {fileBasenameNoExtension} - 当前打开的文件的基本名称，没有文件扩展名
+    $ {fileDirname} - 当前打开的文件的目录名
+    $ {fileExtname} - 当前打开的文件的扩展名
+    $ {cwd} - 启动时任务运行器当前的工作目录
+    $ {lineNumber} - 活动文件中当前所选的行号
+     */
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "openedFile",
+            "stopOnEntry":false,
+            "program": "${workspaceRoot}\\${fileBasename}",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeArgs": [
+              "--use_strict"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
+            // "externalConsole": false
+            // "sourceMaps": false,
+            // "outFiles": null
+        }
+    ]
+}

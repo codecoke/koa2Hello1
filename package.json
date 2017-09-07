@@ -1,0 +1,25 @@
+{
+  "name": "koa_hello_1",
+  "version": "1.0.0",
+  "description": "learn koa2 async exanple",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --use_strict app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "koa2",
+    "async"
+  ],
+  "author": "w@codecoke.com",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.3.0"
+  },
+  "repository": "git@github.com:codecoke/koa2Hello1.git",
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1"
+  }
+}
