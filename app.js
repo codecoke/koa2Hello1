@@ -4,6 +4,7 @@ const app = new Koa();
 
 app.use(async (ctx,next) => {
   console.log('async 1 begin -----');
+  ctx.state.test1 = '1';
   await next();
   console.log('async 1 end -----\n');
   ctx.response.type = 'text/html';

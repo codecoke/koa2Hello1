@@ -1,0 +1,700 @@
+
+<h1>koa常用api文档整理</h1>
+<h2>koa 支持的配置</h2>
+<h5>1.应用配置是 app 实例属性，目前支持的配置项如下</h5>
+<table>
+<thead>
+<tr><th>配置项名称</th><th>简介</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>app.name</td>
+<td>应用名称（可选项）</td>
+</tr>
+<tr>
+<td>app.env</td>
+<td>默认为 NODE_ENV 或者 development</td>
+</tr>
+<tr>
+<td>app.proxy</td>
+<td>如果为 true，则解析 "Host" 的 header 域，并支持 X-Forwarded-Host</td>
+</tr>
+<tr>
+<td>app.subdomainOffset</td>
+<td>默认为2，表示 .subdomains 所忽略的字符偏移量。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h5>2.上下文相关</h5>
+<div >
+<div>
+<table >
+<tbody>
+<tr>
+<td><td><td><td>&nbsp;<td><td><td>api &nbsp; &nbsp; &nbsp;<td><td><td>&nbsp;<td><td><td></td>
+<td><td><td><td>&nbsp;<td><td><td>简介<td><td></td>
+</tr>
+<tr>
+<td><td><td>ctx.req &nbsp; &nbsp; &nbsp;<td><td><td>&nbsp;<td><td><td></td>
+<td><td><td>Node 的 request 对象<td><td></td>
+</tr>
+<tr>
+<td><td><td>ctx.res &nbsp;<td><td><td>&nbsp;<td><td><td></td>
+<td><td><td>Node 的&nbsp;response 对象<td><td></td>
+</tr>
+<tr>
+<td><td><td>ctx.request &nbsp;<td><td><td>&nbsp;<td><td><td></td>
+<td><td><td>Koa 的 Request 对象。<td><td></td>
+</tr>
+<tr>
+<td><td><td>ctx.response&nbsp; &nbsp;<td><td></td>
+<td><td>Koa 的 R<td><td><td>esponse<td><td><td><td>对象<td><td></td>
+</tr>
+<tr>
+<td><td><td>ctx.app &nbsp; &nbsp;<td><td></td>
+<td><td><td>&nbsp;<td><td><td><td>应用实例引用。 &nbsp; &nbsp;<td><td></td>
+</tr>
+<tr>
+<td><td><td>&nbsp;<td><td><td><td>ctx.cookies.get(name, [options])<td><td></td>
+<td><td><td>获得 cookie 中名为 name 的值，<td><br><td>options 为可选参数：<td><td><td><td>'signed': 如果为 true，<td><br><td>表示请求时 cookie 需要进行签名,<td><br><br><td><td><td>注意：Koa 使用了 Express 的 cookies 模块，options 参数只是简单地直接进行传递<td><td></td>
+
+
+</tr>
+<tr>
+<td><td><td>ctx.cookies.set(name, value, [options])<td><td></td>
+<td><td><td>设置 cookie 中名为 name 的值，<td><br><td>options 为可选参数：<td><br><td><td><td>1.signed: 是否要做签名;<td><br><td>2.<td><td><td><td>expires: cookie 有效期时间;<td><br><td><td><td>3.path: cookie 的路径，默认为 /'<td><td><td><td>;domain: cookie 的域<td><td><td><td>;<td><br><td>4.secure: false 表示 cookie 通过 HTTP 协议发送，true 表示 cookie 通过 HTTPS 发送。<td><br><td><td><td>5.httpOnly: true 表示 cookie 只能通过 HTTP 协议发送;<td><br><br><td><td><td>注意：Koa 使用了 Express 的 cookies 模块，options 参数只是简单地直接进行传递<td><td></td>
+
+
+</tr>
+<tr>
+<td><td>ctx.throw(msg, [status])<td></td>
+<td>
+<p ><td>抛出包含<td><td><td>&nbsp;<td><td><code><td>.status<td></code><td><td>&nbsp;<td><td><td>属性的错误，默认为<td><td><td>&nbsp;<td><td><code><td>500<td></code><td>。该方法可以让 Koa 准确的响应处理状态。 Koa支持以下组合：<td></p>
+<div>
+<div>
+<pre>this.throw(403)
+this.throw('name required',400)
+this.throw(400,'name required')
+this.throw('something exploded')</pre>
+</div>
+</div>
+<td><td>注意：这些用户级错误被标记为<td><td><td>&nbsp;<td><td><td><code ><td>err.expose<td></code><td><td>，其意味着这些消息被准确描述为对客户端的响应，而并非使用在您不想泄露失败细节的场景中。<td><td></td>
+</tr>
+<tr>
+<td ><br><td>ctx.respond<td></td>
+<td ><td>为了避免使用 Koa 的内置响应处理功能，您可以直接赋值 this.repond = false;。如果您不想让 Koa 来帮助您处理 reponse，而是直接操作原生 res 对象，那么请使用这种方法。 注意： 这种方式是不被 Koa 支持的。其可能会破坏 Koa 中间件和 Koa 本身的一些功能。其只作为一种 hack 的方式，并只对那些想要在 Koa 方法和中间件中使用传统 fn(req, res) 方法的人来说会带来便利。<td></td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+<h5>3. 请求request</h5>
+<p>Koa Request 对象是对 node 的 request 进一步抽象和封装，提供了日常 HTTP 服务器开发中一些有用的功能。</p>
+<div >
+<div>
+<table >
+<tbody>
+<tr>
+<td><td>api<td></td>
+<td><td>简介<td></td>
+
+</tr>
+<tr >
+<td><td>req.header<td></td>
+<td><td><td>请求头对象<td><td></td>
+
+</tr>
+<tr>
+<td><td>req.method<td></td>
+<td><td><td>请求方法<td><td></td>
+
+</tr>
+<tr>
+<td><td>req.method=<td></td>
+<td><td>设置请求方法，在实现中间件时非常有用，比如 methodOverride()。<td></td>
+
+</tr>
+<tr>
+<td><td>req.length<td></td>
+<td><td><td>以数字的形式返回 request 的内容长度(Content-Length)，或者返回<td><td><td>&nbsp;<td><td><td><code ><td>undefined<td></code><td><td>。<td><td></td>
+
+</tr>
+<tr>
+<td><td>req.url<td></td>
+<td><td><td>获得请求url地址。<td><td></td>
+
+</tr>
+<tr>
+<td><td>req.url=<td></td>
+<td><td>设置请求地址，用于重写url地址时。<td></td>
+
+</tr>
+<tr>
+<td><td>req.originalUrl<td></td>
+<td><td>获取请求原始地址。<td></td>
+
+</tr>
+<tr>
+<td><td>req.path<td></td>
+<td><td>获取请求路径名。<td></td>
+
+</tr>
+<tr>
+<td><td>req.path=<td></td>
+<td><td>设置请求路径名，并保留请求参数(就是url中?后面的部分)。<td></td>
+
+</tr>
+<tr>
+<td ><td>req.querystring<td></td>
+<td ><td>获取查询参数字符串(url中?后面的部分)，不包含 ?。<td></td>
+
+</tr>
+<tr>
+<td ><td>req.querystring=<td></td>
+<td ><td>设置查询参数。<td></td>
+
+</tr>
+<tr>
+<td ><td>req.search<td></td>
+<td ><td>获取查询参数字符串，包含 ?。<td></td>
+
+</tr>
+<tr>
+<td ><td>req.search=<td></td>
+<td ><td>设置查询参数字符串。<td></td>
+
+</tr>
+<tr>
+<td ><td>req.host<td></td>
+<td ><td>获取 host (hostname:port)。 当 app.proxy 设置为 true 时，支持 X-Forwarded-Host。<td></td>
+
+</tr>
+<tr>
+<td ><td>req.hostname<td></td>
+<td ><td>获取 hostname。当 app.proxy 设置为 true 时，支持 X-Forwarded-Host。<td></td>
+
+</tr>
+<tr>
+<td ><td>req.type<td></td>
+<td ><td>获取请求 Content-Type，不包含像 "charset" 这样的参数。<td><br>
+<div>
+<div>
+<pre><td>var ct =this.request.type;
+// =&gt; "image/png"<td></pre>
+</div>
+</div>
+<div>&nbsp;</div>
+</td>
+</tr>
+<tr>
+<td ><td>req.charset<td></td>
+<td ><td>获取请求 charset，没有则返回 undefined:<td></td>
+</tr>
+<tr>
+<td ><td>req.query<td></td>
+<td ><td>将查询参数字符串进行解析并以对象的形式返回，如果没有查询参数字字符串则返回一个空对象。 注意：该方法不支持嵌套解析。 比如:<td><br>
+<div>
+<div>
+<pre>"color=blue&amp;size=small":
+{
+color:'blue',
+size:'small'
+}</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>req.query=<td></td>
+<td >
+<p><td>根据给定的对象设置查询参数字符串。 <td><br><td> 注意：该方法不支持嵌套对象。<td></p>
+<p>&nbsp;</p>
+<div>
+<pre>this.query ={ next:'/login'};</pre>
+</div>
+<p>&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td ><td>req.fresh<td></td>
+<td ><td>检查请求缓存是否 "fresh"(内容没有发生变化)。该方法用于在 If-None-Match / ETag, If-Modified-Since 和 Last-Modified 中进行缓存协调。当在 response headers 中设置一个或多个上述参数后，该方法应该被使用。<td>
+<div>
+<div>
+<pre>this.set('ETag','123');
+// cache is ok
+if(this.fresh){
+this.status =304;
+return;
+}
+// cache is stale
+// fetch new data
+this.body = yield db.find('something');</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>req.stale<td></td>
+<td ><td>与 req.fresh 相反。<td></td>
+</tr>
+<tr>
+<td ><td>req.protocol<td></td>
+<td ><td>返回请求协议，"https" 或者 "http"。 当 app.proxy 设置为 true 时，支持 X-Forwarded-Host<td></td>
+</tr>
+<tr>
+<td ><td>req.ip<td></td>
+<td ><td>请求远程地址。 当 app.proxy 设置为 true 时，支持 X-Forwarded-Host。<td></td>
+</tr>
+<tr>
+<td ><td>req.secure<td></td>
+<td ><td>简化版 this.protocol == "https"，用来检查请求是否通过 TLS 发送。<td></td>
+</tr>
+<tr>
+<td ><td>req.ips<td></td>
+<td ><td>当 X-Forwarded-For 存在并且 app.proxy 有效，将会返回一个有序（从 upstream 到 downstream）ip 数组。 否则返回一个空数组。<td></td>
+</tr>
+<tr>
+<td ><td>req.subdomains<td></td>
+<td >
+<p ><td>以数组形式返回子域名。<td></p>
+<p ><td>子域名是在host中逗号分隔的主域名前面的部分。默认情况下，应用的域名假设为host中最后两部分。其可通过设置<td><td><td>&nbsp;<td><td><code><td>app.subdomainOffset<td></code><td><td>&nbsp;<td><td><td>进行更改。<td></p>
+<p ><td>举例来说，如果域名是 "tobi.ferrets.example.com":<td></p>
+<p ><td>如果没有设置<td><td><td>&nbsp;<td><td><code><td>app.subdomainOffset<td></code><td>，其 subdomains 为<td><td><td>&nbsp;<td><td><code><td>["ferrets", "tobi"]<td></code><td>。 如果设置<td><td><td>&nbsp;<td><td><code><td>app.subdomainOffset<td></code><td><td>&nbsp;<td><td><td>为3，其 subdomains 为<td><td><td>&nbsp;<td><td><code><td>["tobi"]<td></code><td>。<td></p>
+</td>
+</tr>
+<tr>
+<td ><td>req.is(type)<td></td>
+<td ><td>检查请求所包含的 "Content-Type" 是否为给定的 type 值。 如果没有 request body，返回 undefined。 如果没有 content type，或者匹配失败，返回 false。 否则返回匹配的 content-type。<td>
+<div>
+<div>
+<pre>// With Content-Type: text/html; charset=utf-8
+this.is('html');// =&gt; 'html'
+this.is('text/html');// =&gt; 'text/html'
+this.is('text/*','text/html');// =&gt; 'text/html'
+// When Content-Type is application/json
+this.is('json','urlencoded');// =&gt; 'json'
+this.is('application/json');// =&gt; 'application/json'
+this.is('html','application/*');// =&gt; 'application/json'
+this.is('html');// =&gt; false
+//比如说您希望保证只有图片发送给指定路由：
+if(this.is('image/*')){
+// process
+}else{
+this.throw(415,'images only!');
+}</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr >
+<td ><td>Content Negotiation<td></td>
+<td ><td>Koa request 对象包含 content negotiation 功能（由 accepts 和 negotiator 提供）：<td><br>
+<div>
+<div>
+<pre>req.accepts(types)
+req.acceptsEncodings(types)
+req.acceptsCharsets(charsets)
+req.acceptsLanguages(langs)</pre>
+</div>
+</div>
+<td>如果没有提供 types，将会返回所有的可接受类型。 如果提供多种 types，将会返回最佳匹配类型。如果没有匹配上，则返回 false，您应该给客户端返回 406 "Not Acceptable"。 <td><br><td> 为了防止缺少 accept headers 而导致可以接受任意类型，将会返回第一种类型。因此，您提供的类型顺序非常重要。<td></td>
+
+
+</tr>
+<tr>
+<td ><td>req.accepts(types)<td></td>
+<td ><td><td>检查给定的类型<td><td><td>&nbsp;<td><td><td><code ><td>types(s)<td></code><td><td><td>&nbsp;<td><td><td>是否可被接受，当为 true 时返回最佳匹配，否则返回<td><td><td>&nbsp;<td><td><td><code ><td>false<td></code><td><td>。<td><td><code ><td>type<td></code><td><td><td>&nbsp;<td><td><td>的值可以是一个或者多个 mime 类型字符串。 比如 "application/json" 扩展名为 "json"，或者数组<td><td><td>&nbsp;<td><td><td><code ><td>["json", "html", "text/plain"]<td></code><td><td><td>。<td><td><td>
+<div>
+<div>
+<pre>// Accept: text/html
+this.accepts('html');
+// =&gt; "html"
+// Accept: text/*, application/json
+this.accepts('html');
+// =&gt; "html"
+this.accepts('text/html');
+// =&gt; "text/html"
+this.accepts('json','text');
+// =&gt; "json"
+this.accepts('application/json');
+// =&gt; "application/json"
+// Accept: text/*, application/json
+this.accepts('image/png');
+this.accepts('png');
+// =&gt; false
+// Accept: text/*;q=.5, application/json
+this.accepts(['html','json']);
+this.accepts('html','json');
+// =&gt; "json"
+// No Accept header
+this.accepts('html','json');
+// =&gt; "html"
+this.accepts('json','html');
+// =&gt; "json"</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>req.acceptsEncodings(encodings)<td></td>
+<td ><td>检查 encodings 是否可以被接受，当为 true 时返回最佳匹配，否则返回 false。 注意：您应该在 encodings 中包含 identity。<td><br>
+<div>
+<div>
+<pre>// Accept-Encoding: gzip
+this.acceptsEncodings('gzip','deflate','identity');
+// =&gt; "gzip"
+this.acceptsEncodings(['gzip','deflate','identity']);
+// =&gt; "gzip"</pre>
+</div>
+</div>
+<td><td>当没有传递参数时，返回包含所有可接受的 encodings 的数组：<td><td>
+<div>
+<div>
+<pre>// Accept-Encoding: gzip, deflate
+this.acceptsEncodings();
+// =&gt; ["gzip", "deflate", "identity"]</pre>
+</div>
+</div>
+<td><td>注意：如果客户端直接发送<td><td><td>&nbsp;<td><td><td><code ><td>identity;q=0<td></code><td><td><td>&nbsp;<td><td><td>时，<td><td><code ><td>identity<td></code><td><td><td>&nbsp;<td><td><td>encoding（表示no encoding） 可以不被接受。虽然这是一个边界情况，您仍然应该处理这种情况。<td><td>
+<div>&nbsp;</div>
+</td>
+</tr>
+<tr>
+<td ><td>req.acceptsCharsets(charsets)<td></td>
+<td ><td>检查 charsets 是否可以被接受，如果为 true 则返回最佳匹配， 否则返回 false。<td><br>
+<div>
+<div>
+<pre>// Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
+this.acceptsCharsets('utf-8','utf-7');
+// =&gt; "utf-8"
+this.acceptsCharsets(['utf-7','utf-8']);
+// =&gt; "utf-8"</pre>
+</div>
+</div>
+<td>当没有传递参数时， 返回包含所有可接受的 charsets 的数组：<td>
+<div>
+<div>
+<div>
+<pre><td>// Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
+this.acceptsCharsets();
+// =&gt; ["utf-8", "utf-7", "iso-8859-1"]<td></pre>
+</div>
+</div>
+<div>&nbsp;</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>req.acceptsLanguages(langs)<td></td>
+<td ><td>检查 langs 是否可以被接受，如果为 true 则返回最佳匹配，否则返回 false。<td><br>
+<div>
+<div>
+<pre>// Accept-Language: en;q=0.8, es, pt
+this.acceptsLanguages('es','en');
+// =&gt; "es"
+this.acceptsLanguages(['en','es']);
+// =&gt; "es"</pre>
+</div>
+</div>
+<td><td>当没有传递参数时，返回包含所有可接受的 langs 的数组：<td><td>
+<div>
+<div>
+<pre>// Accept-Language: en;q=0.8, es, pt
+this.acceptsLanguages();
+// =&gt; ["es", "pt", "en"]</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>req.idempotent<td></td>
+<td ><td>检查请求是否为幂等(idempotent)。<td></td>
+</tr>
+<tr>
+<td ><td>req.socket<td></td>
+<td ><td>返回请求的socket。<td></td>
+</tr>
+<tr>
+<td ><td>req.get(field)<td></td>
+<td ><td>返回请求 header 中对应 field 的值。<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h5>4.响应(Response)</h5>
+<p>Koa Response 对象是对 node 的 response 进一步抽象和封装，提供了日常 HTTP 服务器开发中一些有用的功能。</p>
+<div >
+<div>
+<table >
+<tbody>
+<tr>
+<td><td>API<td></td>
+<td><td>简介<td></td>
+</tr>
+<tr >
+<td><td>res.header<td></td>
+<td><td>Response header 对象。<td></td>
+</tr>
+<tr>
+<td><td>res.socket<td></td>
+<td><td>Request socket。<td></td>
+</tr>
+<tr>
+<td><td>res.status<td></td>
+<td><td>获取 response status。不同于 node 在默认情况下 res.statusCode 为200，res.status 并没有赋值。<td></td>
+</tr>
+<tr>
+<td><td>res.statusString<td></td>
+<td><td>Response status 字符串。<td></td>
+</tr>
+<tr>
+<td><td>res.status=<td></td>
+<td><td>通过 数字状态码或者不区分大小写的字符串来设置response status<td>
+<div>
+<div>
+<pre>100"continue"
+101"switching protocols"
+102"processing"
+200"ok"
+201"created"
+202"accepted"
+203"non-authoritative information"
+204"no content"
+205"reset content"
+206"partial content"
+207"multi-status"
+300"multiple choices"
+301"moved permanently"
+302"moved temporarily"
+303"see other"
+304"not modified"
+305"use proxy"
+307"temporary redirect"
+400"bad request"
+401"unauthorized"
+402"payment required"
+403"forbidden"
+404"not found"
+405"method not allowed"
+406"not acceptable"
+407"proxy authentication required"
+408"request time-out"
+409"conflict"
+410"gone"
+411"length required"
+412"precondition failed"
+413"request entity too large"
+414"request-uri too large"
+415"unsupported media type"
+416"requested range not satisfiable"
+417"expectation failed"
+418"i'm a teapot"
+422"unprocessable entity"
+423"locked"
+424"failed dependency"
+425"unordered collection"
+426"upgrade required"
+428"precondition required"
+429"too many requests"
+431"request header fields too large"
+500"internal server error"
+501"not implemented"
+502"bad gateway"
+503"service unavailable"
+504"gateway time-out"
+505"http version not supported"
+506"variant also negotiates"
+507"insufficient storage"
+509"bandwidth limit exceeded"
+510"not extended"
+511"network authentication required"
+注意：不用担心记不住这些字符串，如果您设置错误，会有异常抛出，并列出该状态码表来帮助您进行更正。</pre>
+</div>
+</div>
+<div>&nbsp;</div>
+</td>
+</tr>
+<tr>
+<td><td>res.length=<td></td>
+<td><td>通过给定值设置 response Content-Length。<td></td>
+</tr>
+<tr>
+<td><td>res.length<td></td>
+<td><td>如果 Content-Length 作为数值存在，或者可以通过 res.body 来进行计算，则返回相应数值，否则返回 undefined。<td></td>
+</tr>
+<tr>
+<td><td>res.body<td></td>
+<td><td>获得 response body。<td></td>
+</tr>
+<tr>
+<td><td>res.body=<td></td>
+<td>
+<p><td>设置 response body 为如下值：&nbsp;<td></p>
+<div>
+<pre>string written
+Buffer written
+Stream piped
+Object json-stringified
+null no content response</pre>
+</div>
+<div><td><td>如果 res.status 没有赋值，Koa会自动设置为 200 或 204。<td><td></div>
+</td>
+</tr>
+<tr>
+<td ><td>String<td></td>
+<td ><td>Content-Type 默认为 text/html 或者 text/plain，两种默认 charset 均为 utf-8。 Content-Length 同时会被设置。<td></td>
+</tr>
+<tr>
+<td ><td>Buffer<td></td>
+<td ><td>Content-Type 默认为 application/octet-stream，Content-Length同时被设置。<td></td>
+</tr>
+<tr>
+<td ><td>Stream<td></td>
+<td ><td>Content-Type 默认为 application/octet-stream。<td></td>
+</tr>
+<tr>
+<td ><td>Object<td></td>
+<td ><td>Content-Type 默认为 application/json。<td></td>
+</tr>
+<tr>
+<td ><td>res.get(field)<td></td>
+<td ><td>获取 response header 中字段值，field 不区分大小写。<td>
+<div>
+<div>
+<pre>var etag =this.get('ETag');</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>res.set(field, value)<td></td>
+<td ><td>设置 response header 字段 field 的值为 value。<td>
+<div>
+<div>
+<pre>this.set('Cache-Control','no-cache');</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>res.set(fields)<td></td>
+<td ><td>使用对象同时设置 response header 中多个字段的值。<td>
+<div>
+<div>
+<pre>this.set({
+'Etag':'1234',
+'Last-Modified': date
+});</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>res.remove(field)<td></td>
+<td ><td>移除 response header 中字段 filed。<td></td>
+</tr>
+<tr>
+<td ><td>res.type<td></td>
+<td ><td><td>获取 response<td><td><td>&nbsp;<td><td><td><code ><td>Content-Type<td></code><td><td><td>，不包含像 "charset" 这样的参数。<td><br><td><td>
+<div>
+<div>
+<pre>var ct =this.type;
+// =&gt; "image/png"</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>res.type=<td></td>
+<td >
+<p><td>通过 mime 类型的字符串或者文件扩展名设置 response Content-Type<td></p>
+<p>&nbsp;</p>
+<div>
+<pre>this.type ='text/plain; charset=utf-8';
+this.type ='image/png';
+this.type ='.png';
+this.type ='png';</pre>
+</div>
+<p><td><br><td><td>注意：当可以根据 res.type 确定一个合适的 charset 时，charset 会自动被赋值。 比如 res.type = 'html' 时，charset 将会默认设置为 "utf-8"。然而当完整定义为 res.type = 'text/html'时，charset 不会自动设置。<td></p>
+<div>&nbsp;</div>
+
+
+</td>
+
+
+</tr>
+<tr>
+<td ><td>res.redirect(url, [alt])<td></td>
+<td ><td>执行 [302] 重定向到对应 url。 <td><br><td>字符串 "back" 是一个特殊参数，其提供了 Referrer 支持。当没有Referrer时，使用 alt 或者 / 代替。<td><br>
+<div>
+<div>
+<pre>this.redirect('back');
+this.redirect('back','/index.html');
+this.redirect('/login');
+this.redirect('http://google.com');</pre>
+</div>
+</div>
+<td>如果想要修改默认的 [302] 状态，直接在重定向之前或者之后执行即可。如果要修改 body，需要在重定向之前执行。<td><br>
+<div>
+<div>
+<pre>this.status =301;
+this.redirect('/cart');
+this.body ='Redirecting to shopping cart';</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>res.attachment([filename])<td></td>
+<td ><td>设置 "attachment" 的 Content-Disposition，用于给客户端发送信号来提示下载。filename 为可选参数，用于指定下载文件名。<td></td>
+</tr>
+<tr>
+<td ><td>res.headerSent<td></td>
+<td ><td>检查 response header 是否已经发送，用于在发生错误时检查客户端是否被通知。<td></td>
+</tr>
+<tr>
+<td ><td>res.lastModified<td></td>
+<td ><td>如果存在 Last-Modified，则以 Date 的形式返回。<td></td>
+</tr>
+<tr>
+<td ><td>res.lastModified=<td></td>
+<td ><td><td>以 UTC 格式设置<td><td><td>&nbsp;<td><td><td><code ><td>Last-Modified<td></code><td><td>。您可以使用<td><td><td>&nbsp;<td><td><td><code ><td>Date<td></code><td><td><td><td>&nbsp;<td><td><td>或 date 字符串来进行设置。<td><td><td>
+<div>
+<div>
+<pre>this.response.lastModified =newDate()</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>res.etag=<td></td>
+<td ><td>设置 包含 "s 的 ETag。注意没有对应的 res.etag 来获取其值。<td>
+<div>
+<div>
+<pre>this.response.etag = crypto.createHash('md5').update(this.body).digest('hex');</pre>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td ><td>res.append(field, val)<td></td>
+<td ><td>在 header 的 field 后面 追加 val。<td></td>
+</tr>
+<tr>
+<td ><td>res.vary(field)<td></td>
+<td ><td>相当于执行res.append('Vary', field)。<td></td>
+</tr>
+</tbody>
+</table>
