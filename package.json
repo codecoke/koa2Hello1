@@ -14,12 +14,12 @@
   "author": "w@codecoke.com",
   "license": "MIT",
   "dependencies": {
-    "koa": "^2.3.0"
+    "koa": "^2.3.0",
+    "lowdb": "^1.0.0"
   },
   "repository": "git@github.com:codecoke/koa2Hello1.git",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "eslint": "^4.6.1"
   }
-  
 }
