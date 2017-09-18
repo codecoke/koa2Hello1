@@ -1,21 +1,26 @@
 {
   "name": "koa_hello_1",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "learn koa2 async exanple",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node --use_strict app.js",
+    "start": "node --use_strict bin/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "koa2",
     "async"
   ],
-  "author": "w@codecoke.com",
+  "author": "Mf <wgit codecoke.com>",
   "license": "MIT",
   "dependencies": {
+    "global": "^4.3.2",
     "koa": "^2.3.0",
-    "lowdb": "^1.0.0"
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.2.1",
+    "lowdb": "^1.0.0",
+    "mime": "^2.0.1",
+    "uuid": "^3.1.0"
   },
   "repository": "git@github.com:codecoke/koa2Hello1.git",
   "devDependencies": {

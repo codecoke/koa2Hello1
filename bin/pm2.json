@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "koa2-learn-1",
+      "script": "bin/index.js",
+      "node_args": "--use_strict",
+      "env": {
+        "NODE_ENV": "real"
+      }
+    }
+  ]
+}

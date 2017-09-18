@@ -18,22 +18,40 @@
     "configurations": [
 
         {
+          "type": "chrome",
+          "request": "launch",
+          "name": "chrome",
+          "url": "http://i.122.me:3002/?dev_f=${fileBasename}",
+          "port": 5858,
+          "webRoot": "${workspaceRoot}"
+        },
+        {
             "type": "node",
             "request": "launch",
-            "name": "openedFile",
+            "name": "sev",
             "stopOnEntry":false,
             "program": "${workspaceRoot}\\${fileBasename}",
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeArgs": [
               "--use_strict"
+              // "--inspect=5858"
+              // ,"--experimental-modules"
             ],
             "env": {
-                "NODE_ENV": "development"
+              "NODE_ENV": "development",
+              "PORT":"3002"
             }
+            // "port": 5858
             // "externalConsole": false
             // "sourceMaps": false,
             // "outFiles": null
         }
-    ]
+    ],
+    "compounds": [
+      {
+          "name": "sev/chrome",
+          "configurations": ["sev", "chrome"]
+      }
+  ]
 }

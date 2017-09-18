@@ -1,0 +1,86 @@
+nodejs抓取网络图片转换为base64编码的图片
+
+抓取网络图片需要加载http模块
+
+//假定这是index.js文件
+
+var http = require('http');
+
+var url = 'http://p0.meituan.net/tuanpic/3df525af5a3f7fe04077567d2a6caf794904.png';  //一张网络图片
+
+ 
+
+http.get(url,function(res){
+　　var chunks = []; //用于保存网络请求不断加载传输的缓冲数据
+　　var size = 0;　　 //保存缓冲数据的总长度
+
+　　res.on('data',function(chunk){
+　　　　chunks.push(chunk);　 //在进行网络请求时，会不断接收到数据(数据不是一次性获取到的)，
+
+　　　　　　　　　　　　　　　　//node会把接收到的数据片段逐段的保存在缓冲区（Buffer），
+
+　　　　　　　　　　　　　　　　//这些数据片段会形成一个个缓冲对象（即Buffer对象），
+
+　　　　　　　　　　　　　　　　//而Buffer数据的拼接并不能像字符串那样拼接（因为一个中文字符占三个字节），
+
+　　　　　　　　　　　　　　　　//如果一个数据片段携带着一个中文的两个字节，下一个数据片段携带着最后一个字节，
+
+　　　　　　　　　　　　　　　　//直接字符串拼接会导致乱码，为避免乱码，所以将得到缓冲数据推入到chunks数组中，
+
+　　　　　　　　　　　　　　　　//利用下面的node.js内置的Buffer.concat()方法进行拼接
+
+　　　　　　　　　
+　　　　size += chunk.length;　　//累加缓冲数据的长度
+　　});
+
+　　
+
+　　res.on('end',function(err){
+
+　　　　var data = Buffer.concat(chunks, size);　　//Buffer.concat将chunks数组中的缓冲数据拼接起来，返回一个新的Buffer对象赋值给data
+
+　　　　console.log(Buffer.isBuffer(data));　　　　//可通过Buffer.isBuffer()方法判断变量是否为一个Buffer对象
+
+　　　　
+
+　　　　var base64Img = data.toString('base64');　　//将Buffer对象转换为字符串并以base64编码格式显示
+
+　　　　console.log(base64Img);　　 //进入终端terminal,然后进入index.js所在的目录，
+
+　　　　　　　　　　　　　　　　　　　//在终端中输入node index.js
+
+　　　　　　　　　　　　　　　　　　　//打印出来的就是图片的base64编码格式，格式如下　　　　
+
+　　});
+
+});
+
+ 
+
+抓取网络图片后转换为base64编码格式，格式如下：
+
+iVBORw0KGgoAAAANSUhEUgAAAKQAAABsCAYAAADkDh5ErkJggg==
+
+ 
+
+Question:
+
+1：把图片转换为base64编码有什么用？
+
+2：转换后的base64编码怎么使用？
+
+ 
+
+Answer:
+
+1.将图片转换为base64编码可以实现网页图片在网速不好的时候先于内容加载和减少http的请求次数来减少服务器的负担;
+
+ 
+
+2.使用方法（以png为例）,上面一大坨的编码简写为abc
+
+　　background：url("data:image/png;base64,abc")  no-repeat;
+
+　　假如转换的是其他格式的图片（如gif）则改写成background：url("data:image/gif;base64,abc")  no-repeat;
+
+ 

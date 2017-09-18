@@ -1,0 +1,39 @@
+{"Server":{
+    "domain": null,
+    "_events": { "request": ["Function:handleRequest"
+            ],
+            "connection": ["Function: connectionListener"
+            ]
+        },
+        "_eventsCount": 2,
+        "_maxListeners": "undefined",
+        "_connections": 0,
+        "_handle": 
+        "TCP":{
+            "bytesRead": 0,
+            "_externalStream": [External
+            ],
+            "fd": -1,
+       reading": false,
+       owner": [Circular
+            ],
+       onread": null,
+       onconnection": [Function": onconnection
+            ],
+       writeQueueSize": 0
+        },
+    _usingSlaves": false,
+    _slaves": [],
+    _unref": false,
+    allowHalfOpen": true,
+    pauseOnConnect": false,
+    httpAllowHalfOpen": false,
+    timeout": 120000,
+    keepAliveTimeout": 5000,
+    _pendingResponseData": 0,
+    maxHeadersCount": null,
+    _connectionKey": '6": ": ": ": 3000',
+        [Symbol(asyncId)
+        ]": 6
+    }
+}
