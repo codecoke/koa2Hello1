@@ -1,0 +1,6 @@
+﻿
+1.my.com
+name:
+uid:
+host:all:
+my.com,1.my.com,www.my.com,

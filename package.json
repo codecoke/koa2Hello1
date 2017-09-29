@@ -20,6 +20,7 @@
     "koa-router": "^7.2.1",
     "lowdb": "^1.0.0",
     "mime": "^2.0.1",
+    "node-uuid": "^1.4.8",
     "uuid": "^3.1.0"
   },
   "repository": "git@github.com:codecoke/koa2Hello1.git",
